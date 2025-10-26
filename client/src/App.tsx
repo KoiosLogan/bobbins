@@ -1,6 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { LoginPage, ChatPage, RegisterPage, VerifyEmailPage, CreateServerPage, InvitePage, LogoutPage } from './pages';
+import {
+  LoginPage,
+  ChatPage,
+  RegisterPage,
+  VerifyEmailPage,
+  CreateServerPage,
+  InvitePage,
+  LogoutPage,
+  AccountSettingsPage,
+} from './pages';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +23,7 @@ const App: React.FC = () => {
           <Route path="/create-server" element={<CreateServerPage />} />
           <Route path="/invite/:code" element={<InvitePage />} />
           <Route path="/logout" element={<LogoutPage />} />
+          <Route path="/account" element={<AccountSettingsPage />} />
         </Routes>
       </div>
     </Router>

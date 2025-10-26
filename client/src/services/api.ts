@@ -22,6 +22,8 @@ import {
   GetMessagesParams,
   GetMessagesResponse,
   JoinWebRTCResponse,
+  UpdateCurrentUserRequest,
+  UpdateCurrentUserResponse,
 } from '../types/index';
 
 export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api/v1';
@@ -65,6 +67,11 @@ export const authAPI = {
 
   getCurrentUser: async (): Promise<User> => {
     const response = await api.get<{ data: { user: User } }>('/users/me');
+    return response.data.data.user;
+  },
+
+  updateCurrentUser: async (payload: UpdateCurrentUserRequest): Promise<User> => {
+    const response = await api.put<UpdateCurrentUserResponse>('/users/me', payload);
     return response.data.data.user;
   },
 };

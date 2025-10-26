@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import type { MessageAttachment } from '../../../../types';
 import type { ChatController } from '../../hooks/useChatController';
 import { IconArrowDown, IconMenu, IconMic, IconMicOff, IconPhone, IconScreenShare, IconVideo, IconVideoOff } from './Icons';
@@ -176,16 +177,17 @@ const ChatMainArea: React.FC<ChatMainAreaProps> = ({ controller, onOpenNavigatio
             )}
           </div>
         </div>
-        <div className="hidden items-center gap-2 text-xs text-slate-400 md:flex">
+        <div className="ml-3 flex items-center gap-2 text-xs text-slate-400">
           <span className="hidden rounded-lg border border-slate-800/60 px-3 py-1 font-mono sm:inline-flex">
             {filteredMessages.length} entries
           </span>
-          <button
-            type="button"
-            className="rounded-lg border border-slate-800/80 px-3 py-1 font-mono text-[11px] text-slate-300 transition hover:border-primary-400 hover:text-primary-100"
+          <Link
+            to="/account"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-800/80 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.3em] text-slate-300 transition hover:border-primary-400 hover:text-primary-100"
           >
-            /channel settings
-          </button>
+            <span className="hidden sm:inline">Account</span>
+            <span className="sm:hidden">Acct</span>
+          </Link>
         </div>
       </header>
 

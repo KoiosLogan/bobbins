@@ -100,6 +100,21 @@ export interface VerifyEmailResponse {
   };
 }
 
+export interface UpdateCurrentUserRequest {
+  username?: string;
+  email?: string;
+  avatar?: string | null;
+  password?: string;
+  password_confirmation?: string;
+}
+
+export interface UpdateCurrentUserResponse {
+  message?: string;
+  data: {
+    user: User;
+  };
+}
+
 export interface CreateServerRequest {
   name: string;
   description?: string;

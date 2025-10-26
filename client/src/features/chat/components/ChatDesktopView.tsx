@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { ChatController } from '../hooks/useChatController';
 import AttachmentPreviewDialog from './chat-desktop/AttachmentPreviewDialog';
 import ChannelSidebar from './chat-desktop/ChannelSidebar';
@@ -249,6 +250,20 @@ const ChatDesktopView: React.FC<ChatDesktopViewProps> = ({ controller }) => {
                         </button>
                       );
                     })}
+                </div>
+              </section>
+
+              <section>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.35em] text-slate-500">Account</span>
+                <div className="mt-3 space-y-3">
+                  <Link
+                    to="/account"
+                    onClick={closeMobileNav}
+                    className="flex w-full items-center justify-between gap-3 rounded-lg border border-slate-800/70 bg-slate-950/80 px-3 py-3 text-left text-sm text-slate-200 transition hover:border-primary-400/60 hover:text-primary-100"
+                  >
+                    <span>Profile &amp; security</span>
+                    <span className="text-[11px] uppercase tracking-[0.3em] text-primary-200">Open</span>
+                  </Link>
                 </div>
               </section>
             </div>

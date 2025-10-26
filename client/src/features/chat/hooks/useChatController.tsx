@@ -12,6 +12,7 @@ import type {
   KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
 import { authAPI, buildWebSocketURL, channelsAPI, serversAPI, uploadsAPI } from '../../../services/api';
+import { userCache } from '../../../services/userCache';
 import type {
   Channel,
   Message,
@@ -195,7 +196,7 @@ export const useChatController = (options: UseChatControllerOptions = {}) => {
   const [isDragActive, setIsDragActive] = useState(false);
   const [previewAttachment, setPreviewAttachment] = useState<MessageAttachment | null>(null);
   const [composerMaxHeight, setComposerMaxHeight] = useState(240);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(() => userCache.getCurrentUser());
   const [typingByChannel, setTypingByChannel] = useState<Record<number, TypingEntry[]>>({});
   const [isCreateChannelOpen, setIsCreateChannelOpen] = useState(false);
   const [isCreatingChannel, setIsCreatingChannel] = useState(false);
@@ -309,13 +310,21 @@ export const useChatController = (options: UseChatControllerOptions = {}) => {
   }, [selectedChannel?.id]);
 
   useEffect(() => {
+    const unsubscribe = userCache.subscribe((nextUser) => {
+      setCurrentUser(nextUser);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
     let isMounted = true;
 
     const loadCurrentUser = async () => {
       try {
         const user = await authAPI.getCurrentUser();
         if (isMounted) {
-          setCurrentUser(user);
+          userCache.setCurrentUser(user);
         }
       } catch (error) {
         if (!isMounted) {
@@ -329,6 +338,7 @@ export const useChatController = (options: UseChatControllerOptions = {}) => {
           (error as { response?: { status?: number } }).response?.status;
 
         if (status === 401) {
+          userCache.clear();
           localStorage.removeItem('authToken');
           if (navigate) {
             navigate('/login');
